@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RepaintManager;
 
@@ -23,49 +24,54 @@ public class Game {
     public int pole[][] = new int[3][3];
     public int victory[] = {-1, -1, -1};
 
-    public ArrayList<Integer> xListCircle = new ArrayList<>();
-    public ArrayList<Integer> yListCircle = new ArrayList<>();
-
-    public ArrayList<Integer> xListCross = new ArrayList<>();
-    public ArrayList<Integer> yListCross = new ArrayList<>();
-
-    public int player = 1;
+    public JFrame frame;
+    public JLabel lblText;
+   
+    
+    /**
+     * Принимает значения:
+     * 1 - нолики, -1 - крестики.
+     * 
+     * Переменная необходима для изменения игрока во время игры
+     */
+    public int player = 1; //принимает значения 1 - нолики, -1 крестики. Необходимо
 
     Game() {
         JFrame frame = new JFrame("MyGame");
         JPanel panel = new JPanel();
+        lblText = new JLabel("Test");
 
-        frame.setSize(600, 650);
+        frame.setSize(600, 700);
 
         MouseListener mouseListener = new MouseListener();
         panel.addMouseListener(mouseListener);
 
-        for (int i = 0; i <= pole.length - 1; i++) {
-            for (int j = 0; j <= pole[i].length - 1; j++) {
-                pole[i][j] = 0;
-            }
-        }
+        
+        
+        Button btnClear = new Button("Очистить");
+        
+        clearGamePole();
 
-        Button btnClear = new Button("Clear");
+        
         //panel.add(btnClear);
 
         btnClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(1);
-
-                for (int i = 0; i <= pole.length - 1; i++) {
-                    for (int j = 0; j <= pole[i].length - 1; j++) {
-                        pole[i][j] = 0;
-                    }
-                }
+                clearGamePole();
+                
                 frame.repaint();
 
             }
         });
 
-        btnClear.setBounds(50, 50, 120, 80);
+
+
+        lblText.setBounds(200, 600, 300, 50);
+        btnClear.setBounds(50, 600, 120, 50);
 
         frame.add(btnClear);
+        frame.add(lblText);
 
         //frame.add(new DrawingLines());
         frame.add(new DrawCircleOnClick());
@@ -75,32 +81,33 @@ public class Game {
         frame.setVisible(true);
 
     }
-
-    public static void showArray(int array[][]) {
-
-        String result = "{";
-
-        for (int i = 0; i < array.length; i++) {
-
-            result = result + "{";
-
-            for (int j = 0; j < array[i].length; j++) {
-
-                result = result + array[i][j];
-                if (j < array[i].length - 1) {
-                    result = result + ", ";
-                }
-
+    
+    /**
+     * Метод необходим для очистки результатов игры и подготовки 
+     * поля к новой игре
+     */
+    public void clearGamePole() {
+        
+        //Очищаем игровое поле
+        for (int i = 0; i <= pole.length - 1; i++) {
+            for (int j = 0; j <= pole[i].length - 1; j++) {
+                pole[i][j] = 0;
             }
-            result = result + "}";
-            if (i < array.length - 1) {
-                result = result + ", ";
-            }
-
         }
-        result = result + "}";
-        System.out.println(result);
-
+        
+        //восстанавливаем игрока
+        player = 1;
+        
+        //Очищаем информацию о победе
+        victory[0] = -1;
+        victory[1] = -1;
+        victory[2] = -1;
+        
+        
+        
+        //Восстанавливаем форму
+        //frame.repaint();
+    
     }
 
     public class DrawCircleOnClick extends JPanel {
@@ -119,9 +126,12 @@ public class Game {
 
                     //showArray(pole);
                     player *= -1; //меняем игрока при каждом нажатии
+                    
+                    lblText.setText("11223");
                     gameIsEnd();
                     repaint();
                     victoryMessage();
+                    
 
                 }
             });
@@ -131,6 +141,7 @@ public class Game {
 
             if (victory[0] > -1) {
                 JOptionPane.showMessageDialog(null, "Выиграли " + ((victory[2] < -2) ? "крестики" : "нолики"));
+                clearGamePole();
             }
 
         }
@@ -260,12 +271,11 @@ public class Game {
                 } else if (victory[1] == 3) {
                     g2d.drawLine(550, 50, 50, 550);
                 }
-                victory[0] = -1;
-                victory[1] = -1;
-                victory[2] = -1;
+                
 
             }
 
+            lblText.setText("11223");
         }
 
     }
