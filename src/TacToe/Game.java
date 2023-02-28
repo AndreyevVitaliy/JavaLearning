@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -47,22 +48,22 @@ public class Game {
         clearGamePole();
 
         btnClear = new JButton("Очистить");
-        btnClear1 = new JButton("Очистить2");
+        //btnClear1 = new JButton("Очистить2");
         
         
         ButtonListener btnListener = new ButtonListener();
         btnClear.addActionListener(btnListener);
-        btnClear1.addActionListener(btnListener);
+//        btnClear1.addActionListener(btnListener);
         
 
         lblText.setBounds(200, 600, 300, 50);
         btnClear.setBounds(50, 600, 120, 50);
-        btnClear1.setBounds(250, 600, 120, 50);
-
-
-        frame.add(btnClear);
-        frame.add(btnClear1);
+        btnClear.setVisible(true);
+        
+        
+//        frame.add(btnClear1);
         frame.add(lblText);
+        frame.add(btnClear);
         frame.add(new DrawCircleOnClick());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,7 +109,7 @@ public class Game {
         victory[2] = -1;
 
         //Восстанавливаем форму
-        //frame.repaint();
+        frame.repaint();
     }
 
     public class DrawCircleOnClick extends JPanel {
@@ -122,7 +123,13 @@ public class Game {
                 public void mousePressed(MouseEvent e) {
                     x = identifyCell(e.getX());
                     y = identifyCell(e.getY());
-
+                    
+                    //сначала необходимо проверить пустая ли ячейка
+                    if (pole[y][x] != 0) {
+                        JOptionPane.showMessageDialog(frame, "Необходимо выбрать пустую клетку!");
+                        return;
+                    }
+                    
                     pole[y][x] = player; //  записываем значение игрока в массив
                     player *= -1; //меняем игрока при каждом нажатии
 
@@ -299,29 +306,5 @@ public class Game {
 
     }
 
-//    public static class MouseListener extends MouseAdapter {
-//
-//        private int mouseX;
-//        private int mouseY;
-//
-////        @Override
-////        public void mousePressed(MouseEvent e) {
-////            int button = e.getButton();
-////            int x = e.getX();
-////            int y = e.getY();
-////        }
-////        @Override
-////        public void mouseMoved(MouseEvent e) {
-////            mouseX = e.getX();
-////            mouseY  = e.getY();
-////        }
-////
-////        public int getMouseX() {
-////            return mouseX;
-////        }
-////
-////        public int getMouseY() {
-////            return mouseY;
-////        }
-//    }
+
 }
