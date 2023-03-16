@@ -197,7 +197,7 @@ public class main extends JFrame {
         if (reverseExecution == false) {
 
             if ((lastRow + i >= 0 && lastRow + i <= 9) && (lastColumn + j >= 0 && lastColumn + j <= 9)) {
-                if (cells[lastRow + i][lastColumn + j].getText() == "") {
+                if (cells[lastRow + i][lastColumn + j].getText().isEmpty()) {
                     //cells[lastRow + i][lastColumn + j].setBorder(BorderFactory.createLineBorder(Color.GREEN));
                     cells[lastRow + i][lastColumn + j].setText("" + (currentPlayer + 1));
                     cells[lastRow + i][lastColumn + j].setForeground(Color.GRAY);
@@ -273,6 +273,12 @@ public class main extends JFrame {
     // Сброс игры
     private void resetGame() {
         currentPlayer = 1;
+        listOfMoves.clear();
+        lastRow = -1; lastColumn = -1;
+        lastBorder = null;
+        userError = false;
+        possibleMoves = true;
+        
     }
 
     public static void main(String[] args) {
