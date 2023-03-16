@@ -1,16 +1,17 @@
+package Zehn;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import javax.swing.border.Border;
 
 public class main extends JFrame {
 
-    //private int[][] field = new int[10][10];
-    ArrayList<int[]> field = new ArrayList<>();
-    private JButton[][] cells = new JButton[10][10];
+    ArrayList<int[]> listOfMoves = new ArrayList<>();
+    final private JButton[][] cells = new JButton[10][10];
+
     private int currentPlayer = 1;
     public int lastRow = -1, lastColumn = -1;
     public Border lastBorder;
@@ -80,12 +81,15 @@ public class main extends JFrame {
 
     class ButtonArrayKeyAdapter extends KeyAdapter {
 
+        @Override
         public void keyPressed(KeyEvent e) {
             formKeyPressed(e);
         }
     }
 
     class FormKeyAdapter extends KeyAdapter {
+
+        @Override
         public void keyPressed(KeyEvent e) {
             formKeyPressed(e);
         }
@@ -136,15 +140,9 @@ public class main extends JFrame {
         lastBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         clickedCell.setText(String.valueOf(currentPlayer++));
-        //clickedCell.setFont(new Font(null, 1, 15));
         clickedCell.setForeground(Color.BLACK);
-        //clickedCell.setBackground(Color.BLUE);
 
-        int array[] = {lastRow, lastColumn};
-        field.add(array);
-        //увеличиваем значение основное игрового счетчика
-        //currentPlayer++;
-        //field[lastRow][lastColumn] = currentPlayer;
+        listOfMoves.add(new int[]{lastRow, lastColumn});
 
         // Проверяем, закончена ли игра
         if (checkGameOver()) {
@@ -219,70 +217,48 @@ public class main extends JFrame {
 
     private void formKeyPressed(KeyEvent evt) {
         switch (evt.getKeyCode()) {
-
             case KeyEvent.VK_Z:
                 makeMoveBack();
-
             default:
         }
     }
 
     private void makeMoveBack() {
-       
+
         //если в списке один ход, его не позволяем менять
-        if (field.size() == 1) {
+        if (listOfMoves.size() == 1) {
             return;
         }
-        
+
         //получаем индексы предпоследнего хода
-        int idxRow = field.get(field.size()-1)[0];
-        int idxColumn = field.get(field.size()-1)[1];
-        
+        int idxRow = listOfMoves.get(listOfMoves.size() - 1)[0];
+        int idxColumn = listOfMoves.get(listOfMoves.size() - 1)[1];
+
         //очищаем возможные ходы последнего хода
         changeCellsValue(true);
-        
-        
+
         //возвращаемся на два хода назад и устанавливаем предпослений ход как основной
-        lastRow = field.get(field.size()-2)[0];
-        lastColumn = field.get(field.size()-2)[1];
-        
+        lastRow = listOfMoves.get(listOfMoves.size() - 2)[0];
+        lastColumn = listOfMoves.get(listOfMoves.size() - 2)[1];
+
         //получаем значение цифры, которую должны стереть с карты
-        int prevNumber = (int)Integer.parseInt(cells[idxRow][idxColumn].getText());
-        
+        int prevNumber = (int) Integer.parseInt(cells[idxRow][idxColumn].getText());
+
         //уменьшаем значение текущего хода на 1, чтобы вокруг предыдущего 
         //нарисовать новый список возможных ходов
-        currentPlayer = prevNumber-1;
+        currentPlayer = prevNumber - 1;
         cells[idxRow][idxColumn].setText("");
-        
+
         //рисуем вновь список возможных ходов
         changeCellsValue(false);
-        
+
         //устанавливаем потенциальное значение будущих вариантов ходов
         currentPlayer++;
 //        
-        
-        
-        
-        
-        
-        field.remove(field.size()-1);
-        
-        
-        
-//        ArrayList tempArray = field.get(field.size()-1);
-//        
-//        int i = Integer.parseInt(tempArray.get(0).toString());
-//        int j = Integer.parseInt(tempArray.get(1).toString());
-//        
-//        //Integer.parseInt(j)
-//        
-//        cells[i][j].setText("");
-//        currentPlayer--;
-//        
-//        
 
-        //cells[tempArray.get(0)][tempArray.get(1)].setText("");
-        //Integer lastElement = arrayList.get(arrayList.size() - 1).get(arrayList.get(arrayList.size() - 1).size() - 1);
+        //удаляем последний ход из списка ходов
+        listOfMoves.remove(listOfMoves.size() - 1);
+
     }
 
     // Проверяем, закончена ли игра
@@ -297,18 +273,9 @@ public class main extends JFrame {
     // Сброс игры
     private void resetGame() {
         currentPlayer = 1;
-//        for (int i = 0; i <= field.length - 1; i++) {
-//            for (int j = 0; j <= field[i].length - 1; j++) {
-//                field[i][j] = 0;
-//            }
-//        }
-
-        //JOptionPane.showMessageDialog(null, "Выбери любой сектор для начала игры. Твоя задача заполнить все ячейки цифрами");
-
     }
 
     public static void main(String[] args) {
-//        JOptionPane.showMessageDialog(, "Выбери любой сектор для начала игры. Твоя задача заполнить все ячейки цифрами");
-new main();
+        new main();
     }
 }
