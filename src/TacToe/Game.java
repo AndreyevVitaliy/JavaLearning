@@ -77,12 +77,11 @@ public class Game {
         public void actionPerformed(ActionEvent e) {
             
             if (e.getSource() == btnClear) { //Нажатие на кнопку 
-                System.out.println(1);
+                //System.out.println(1);
                 clearGamePole();
                 frame.repaint();
-            } else {
-                System.out.println("Другая кнопка");
-            }
+            } else System.out.println("Другая кнопка");
+
 
         }
     }
@@ -198,7 +197,7 @@ public class Game {
          * Метод определяет по координатам ячейку в которой необходимо
          * нарисовать объект
          *
-         * @param param - принимает значение координат мыши
+         * @param param принимает значение координат мыши
          * @return возвращает значение колонки илии строки. Нумерация начинается
          * с 0.
          */

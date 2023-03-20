@@ -7,7 +7,7 @@ public class Employees {
     int age;
     private double salary;
     Departments department;
-    BankAccount bankAccount;
+    BankAccountNew bankAccount;
 
     public Employees(int id, String surname, int age, double salary, int bankAccount) {
         this.id = id;
@@ -16,7 +16,7 @@ public class Employees {
         this.salary = salary;
         this.department = new Departments();
         //System.out.println("Счет: " + bankAccount);
-        this.bankAccount = new BankAccount(bankAccount);
+        this.bankAccount = new BankAccountNew(bankAccount);
   
     }
     
@@ -52,17 +52,17 @@ public class Employees {
 }
 
 
-class BankAccount {
+class BankAccountNew {
     
     int id;
     int account;
     
     
-    public BankAccount() {
+    public BankAccountNew() {
         this.account = 0;
     }
     
-    public BankAccount(int account) {
+    public BankAccountNew(int account) {
        this.account = account;
     }
     
