@@ -1,6 +1,4 @@
-package Lesson27;
-
-import Lesson10.P1.P2.B;
+package Lesson24;
 
 public class Test {
 
@@ -87,8 +85,8 @@ abstract class Mammal extends Animal implements Speakable{
 interface Speakable{
     default void speak(){
         System.out.println("Стандартный метод");
-    };
- }
+    }
+}
 
  class Mechenosec extends Fish{
     Mechenosec(String name){
